@@ -11,7 +11,8 @@ void loop() {
 
   if (presenca == HIGH) {
     digitalWrite(led, HIGH);  // Liga o LED
+    delay(5000);              // Mantém ligado por 5 segundos (5000 ms)
   } else {
-    digitalWrite(led, LOW);   // Desliga o LED
+    digitalWrite(led, LOW);   // Desliga o LED se não houver movimento
   }
 }
