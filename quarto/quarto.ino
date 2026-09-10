@@ -1,7 +1,7 @@
 // Pinos configurados conforme a sua montagem
-const int echoPin = 2;
-const int trigPin = 3;
-const int ledPin = 7; // Mude este número se o LED estiver em outro pino
+const int echoPin = 3;
+const int trigPin = 2;
+const int ledPin = 13; // Mude este número se o LED estiver em outro pino
 
 long duration;
 int distance;
@@ -32,12 +32,15 @@ void loop() {
   Serial.print(distance);
   Serial.println(" cm");
 
-  // Se o objeto estiver a menos de 20cm, acende o LED
-  if (distance > 0 && distance < 20) {
-    digitalWrite(ledPin, HIGH);
+  // Se o objeto estiver a menos de 13cm, acende o LED por 5 segundos
+  if (distance > 0 && distance < 13) {
+    digitalWrite(ledPin, HIGH); // Liga o LED
+    delay(5000);                // Mantém o programa pausado com o LED aceso por 5 segundos
+    digitalWrite(ledPin, LOW);  // Apaga o LED após os 5 segundos
   } else {
-    digitalWrite(ledPin, LOW);
+    digitalWrite(ledPin, LOW);  // Garante que o LED fique apagado caso não tenha movimento
   }
 
+  // Pequena pausa antes da próxima leitura do sensor
   delay(100);
 }
