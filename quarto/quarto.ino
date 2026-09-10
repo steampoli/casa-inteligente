@@ -1,18 +1,43 @@
-const int sensor = 2;
-const int led = 13;
+// Pinos configurados conforme a sua montagem
+const int echoPin = 2;
+const int trigPin = 3;
+const int ledPin = 7; // Mude este número se o LED estiver em outro pino
+
+long duration;
+int distance;
 
 void setup() {
-  pinMode(sensor, INPUT);
-  pinMode(led, OUTPUT);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(ledPin, OUTPUT);
+  
+  Serial.begin(9600);
 }
 
 void loop() {
-  int presenca = digitalRead(sensor);
+  // Dispara o pulso do sensor
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
 
-  if (presenca == HIGH) {
-    digitalWrite(led, HIGH);  // Liga o LED
-    delay(5000);              // Mantém ligado por 5 segundos (5000 ms)
+  // Lê o tempo de retorno no pino Echo
+  duration = pulseIn(echoPin, HIGH);
+
+  // Calcula a distância em centímetros
+  distance = duration * 0.034 / 2;
+
+  Serial.print("Distancia: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+
+  // Se o objeto estiver a menos de 20cm, acende o LED
+  if (distance > 0 && distance < 20) {
+    digitalWrite(ledPin, HIGH);
   } else {
-    digitalWrite(led, LOW);   // Desliga o LED se não houver movimento
+    digitalWrite(ledPin, LOW);
   }
+
+  delay(100);
 }
